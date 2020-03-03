@@ -562,7 +562,6 @@ cps()
 
   // Loop over process table looking for process with pid.
   acquire(&ptable.lock);
-  
   cprintf("name \t pid \t state \t \t priority \n");
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if ( p->state == SLEEPING ) {
@@ -575,9 +574,6 @@ cps()
         cprintf("%s \t %d  \t RUNNABLE \t %d\n ", p->name, p->pid, p->priority );
       }
   }
-  
-  //following information is needed: pid, name, uid, gid, ppid, etime, cput, state, size
-  //these modifications depend on previous steps to be finished before they can be implemented easily--Ken Lin
   
   release(&ptable.lock);
   
