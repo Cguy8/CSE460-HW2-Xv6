@@ -26,6 +26,7 @@ int uptime(void);
 int cps(void);
 int nps(void);
 int touch(void);
+int date(struct rtcdate*);
 int chpr(int,int);
 
 // ulib.c
