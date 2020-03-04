@@ -114,6 +114,41 @@ sys_chpr (void)
   return chpr ( pid, pr );
 }
 
+//edits for id system calls --- Colby Holloman
+int
+sys_getuid(void)
+{
+	return myproc()->uid;
+}
+
+int
+sys_getgid(void)
+{
+	return myproc()->gid;
+}
+
+int
+sys_getppid(void)
+{
+	return myproc()->ppid;
+}
+
+int
+sys_setuid(void)
+{
+	//Do creating and testing type stuuf
+	return setuid(42);
+	//test value for testing purposes
+}
+
+int
+sys_setgid(void)
+{
+	//Do creating and testing type stuuf
+	return setgid(9001);
+	//test value for testing purposes
+}
+
 //starting edits---Ken Lin
 int sys_date(void)
 {
