@@ -58,6 +58,7 @@ mycpu(void)
 
 // Disable interrupts so that we are not rescheduled
 // while reading proc from the cpu structure
+//Ken Lin, modifying struct proc
 struct proc*
 myproc(void) {
   struct cpu *c;
@@ -116,7 +117,10 @@ found:
   p->context = (struct context*)sp;
   memset(p->context, 0, sizeof *p->context);
   p->context->eip = (uint)forkret;
-
+  
+  //KL, adding initialization for start_ticks
+  p->start_ticks = ticks;
+  
   return p;
 }
 
@@ -533,7 +537,10 @@ procdump(void)
   struct proc *p;
   char *state;
   uint pc[10];
-
+  //KL, we were missing the line that prints the header of procdump
+  
+  cprintf("\nPID\tState\tName\tElapsed\t\tSize\t\t PCs\n");
+  
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
     if(p->state == UNUSED)
       continue;
@@ -541,7 +548,14 @@ procdump(void)
       state = states[p->state];
     else
       state = "???";
-    cprintf("%d %s %s", p->pid, state, p->name);
+      
+    //KL, modifying to print time elapsed and size
+    
+    uint elapsed = ticks - p->start_ticks;
+    uint front = elapsed/1000;
+    uint back = elapsed%1000;
+    
+    cprintf("%d\t%s\t%s\t%d.%d seconds\t%d bytes\t", p->pid, state, p->name, front, back, p->sz);
     if(p->state == SLEEPING){
       getcallerpcs((uint*)p->context->ebp+2, pc);
       for(i=0; i<10 && pc[i] != 0; i++)
