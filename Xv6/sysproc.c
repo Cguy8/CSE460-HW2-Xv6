@@ -130,23 +130,31 @@ sys_getgid(void)
 int
 sys_getppid(void)
 {
-	return myproc()->ppid;
+	if (myproc()->parent != 0)
+		return myproc()->parent->pid;
+	else return 0;
 }
 
 int
 sys_setuid(void)
 {
-	//Do creating and testing type stuuf
-	return setuid(42);
-	//test value for testing purposes
+	int uid;
+	if (argint(0,&uid) < 0)
+		return -1;
+
+	setuid((uint)uid);
+	return 0;
 }
 
 int
 sys_setgid(void)
 {
-	//Do creating and testing type stuuf
-	return setgid(9001);
-	//test value for testing purposes
+	int gid;
+	if (argint(0,&gid) < 0)
+		return -1;
+
+	setgid((uint)gid);
+	return 0;
 }
 
 //starting edits---Ken Lin

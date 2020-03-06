@@ -52,7 +52,6 @@ struct proc {
   int priority;			// Process priority
   uint uid;			// User ID
   uint gid;			// Group ID
-  uint ppid;
 };
 
 // Process memory is laid out contiguously, low addresses first:

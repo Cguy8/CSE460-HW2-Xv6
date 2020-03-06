@@ -639,11 +639,9 @@ chpr( int pid, int priority )
 int
 setuid(uint uid)
 {
-	struct proc *p = ptable.proc;
-
   acquire(&ptable.lock);
 
-        p->uid = uid;
+  myproc()->uid = uid;
 
   release(&ptable.lock);	
 
@@ -653,11 +651,9 @@ setuid(uint uid)
 int
 setgid(uint gid)
 {
-	struct proc *p = ptable.proc;
-
   acquire(&ptable.lock);
 
-        p->gid = gid;
+  myproc()->gid = gid;
 
   release(&ptable.lock);	
 
