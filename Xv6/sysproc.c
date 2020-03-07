@@ -114,6 +114,49 @@ sys_chpr (void)
   return chpr ( pid, pr );
 }
 
+//edits for id system calls --- Colby Holloman
+int
+sys_getuid(void)
+{
+	return myproc()->uid;
+}
+
+int
+sys_getgid(void)
+{
+	return myproc()->gid;
+}
+
+int
+sys_getppid(void)
+{
+	if (myproc()->parent != 0)
+		return myproc()->parent->pid;
+	else return 0;
+}
+
+int
+sys_setuid(void)
+{
+	int uid;
+	if (argint(0,&uid) < 0)
+		return -1;
+
+	setuid((uint)uid);
+	return 0;
+}
+
+int
+sys_setgid(void)
+{
+	int gid;
+	if (argint(0,&gid) < 0)
+		return -1;
+
+	setgid((uint)gid);
+	return 0;
+}
+
 //starting edits---Ken Lin
 int sys_date(void)
 {

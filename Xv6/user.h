@@ -28,6 +28,11 @@ int nps(void);
 int touch(void);
 int date(struct rtcdate*);
 int chpr(int,int);
+uint getuid(void);
+uint getgid(void);
+uint getppid(void);
+int setuid(uint);
+int setgid(uint);
 
 // ulib.c
 int stat(char*, struct stat*);
