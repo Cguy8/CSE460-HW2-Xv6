@@ -24,8 +24,3 @@
 #define SYS_nps	   23
 #define SYS_chpr   24
 #define SYS_date   25
-#define SYS_getuid 26
-#define SYS_getgid 27
-#define SYS_getppid 28
-#define SYS_setuid 29
-#define SYS_setgid 30

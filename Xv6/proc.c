@@ -204,8 +204,6 @@ fork(void)
   np->sz = curproc->sz;
   np->parent = curproc;
   *np->tf = *curproc->tf;
-	np->uid = curproc->uid;
-	np->gid = curproc->gid;
 
   // Clear %eax so that fork returns 0 in the child.
   np->tf->eax = 0;
@@ -635,27 +633,27 @@ chpr( int pid, int priority )
   return pid;
 }
 
-//Edit for setting ids --- Colby Holloman
-int
-setuid(uint uid)
+//creates one or more empty files
+/*int
+touch()
 {
-  acquire(&ptable.lock);
-
-  myproc()->uid = uid;
-
-  release(&ptable.lock);	
-
-	return uid;
+  FILE *fptr;
+    
+  if (argstr(1) != NULL) {
+    fptr = open(argstr(1), 0_CREAT);
+    fclose(fptr);
+  }
+  
+  if (df != NULL) {
+    fptr = open(df, 0_CREAT);
+    fclose(fptr);
+  }
+  
+  if (af != NULL) {
+    fptr = open(af, 0_CREAT);
+    fclose(fptr);
+  }
+ 
+  return 22;
 }
-
-int
-setgid(uint gid)
-{
-  acquire(&ptable.lock);
-
-  myproc()->gid = gid;
-
-  release(&ptable.lock);	
-
-	return gid;
-}
+*/

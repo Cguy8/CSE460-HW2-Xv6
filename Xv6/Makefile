@@ -179,7 +179,6 @@ UPROGS=\
 	_foo\
 	_nice\
 	_date\
-	_vid\
 	_zombie\
 
 fs.img: mkfs README $(UPROGS)
