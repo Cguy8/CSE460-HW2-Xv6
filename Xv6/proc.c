@@ -653,9 +653,12 @@ int
 setuid(uint uid)
 {
   acquire(&ptable.lock);
-
+	if (!((0 <= uid) && (uid <= 32767))) {
+		cprintf("Error: %d is out of bounds. uid will not be changed.\n", uid);
+		release(&ptable.lock);
+		return -1;
+	}
   myproc()->uid = uid;
-
   release(&ptable.lock);	
 
 	return uid;
@@ -665,9 +668,12 @@ int
 setgid(uint gid)
 {
   acquire(&ptable.lock);
-
+	if (!((0 <= gid) && (gid <= 32767))) {
+		cprintf("Error: %d is out of bounds. gid will not be changed.\n", gid);
+		release(&ptable.lock);
+		return -1;
+	}
   myproc()->gid = gid;
-
   release(&ptable.lock);	
 
 	return gid;
