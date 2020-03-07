@@ -6,10 +6,9 @@
 #include "x86.h"
 #include "proc.h"
 #include "spinlock.h"
-#include<stddef.h>
-#include<sys/types.h>
-#include<stdio.h>
-//#define NULL 0
+#include "stddef.h"
+//#include "sys/types.h"
+//#include "stdio.h"
 
 struct {
   struct spinlock lock;
