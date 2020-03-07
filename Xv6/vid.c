@@ -7,25 +7,51 @@
 int
 main(void)
 {
+	int returnCheck = 0;
 	unsigned int uid, gid, ppid;
 
 	uid = getuid();
-	printf(2, "Current UID is: %d\n", uid);
-	printf(2, "Setting UID to 100\n");
-	setuid(100);
+	printf(1, "Current UID is: %d\n", uid);
+	printf(1, "Setting UID to 100\n");
+	returnCheck = setuid(100);
+	printf(1, "Function returned %d\n", returnCheck);
+	if (returnCheck == -1) {
+		printf(2, "Error was encountered. Continuing tests.\n");
+	}
 	uid = getuid();
-	printf(2, "Current UID is: %d\n", uid);
+	printf(1, "Current UID is: %d\n", uid);
 
 	gid = getgid();
-	printf(2, "Current GID is: %d\n", gid);
-	printf(2, "Setting GID to 100\n");
-	setgid(100);
+	printf(1, "Current GID is: %d\n", gid);
+	printf(1, "Setting GID to 100\n");
+	returnCheck = setgid(100);
+	printf(1, "Function returned %d\n", returnCheck);
+	if (returnCheck == -1) {
+		printf(2, "Error was encountered. Continuing tests.\n");
+	}
 	gid = getgid();
-	printf(2, "Current GID is: %d\n", gid);
+	printf(1, "Current GID is: %d\n", gid);
 
 	ppid = getppid();
-	printf(2, "My parent process is: %d\n", ppid);
-	printf(2, "Done!\n");
+	printf(1, "My parent process is: %d\n", ppid);
+
+	printf(1, "Setting UID to -42\n");
+	returnCheck = setuid(-42);
+	printf(1, "Function returned %d\n", returnCheck);
+	if (returnCheck == -1) {
+		printf(2, "Error was encountered. Continuing tests.\n");
+	}
+	uid = getuid();
+	printf(1, "Current UID is: %d\n", uid);
+	printf(1, "Setting GID to 90001\n");
+	returnCheck = setgid(90001);
+	printf(1, "Function returned %d\n", returnCheck);
+	if (returnCheck == -1) {
+		printf(2, "Error was encountered. Continuing tests.\n");
+	}
+	gid = getgid();
+	printf(1, "Current GID is: %d\n", gid);
+	printf(1, "Done!\n");
 
 	exit();
 }
