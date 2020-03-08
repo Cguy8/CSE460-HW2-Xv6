@@ -2,7 +2,6 @@
 #include "stat.h"
 #include "fcntl.h"
 #include "user.h"
-#include "stddef.h"
 
 int
 main(int argc, char *argv[])

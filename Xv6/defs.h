@@ -123,6 +123,11 @@ void            yield(void);
 int		cps (void);
 int		nps(void);
 int		chpr(int, int);
+uint		getuid(void);
+uint		getgid(void);
+uint		getppid(void);
+int		setuid(uint);
+int		setgid(uint);
 
 // swtch.S
 void            swtch(struct context**, struct context*);

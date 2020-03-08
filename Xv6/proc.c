@@ -6,10 +6,9 @@
 #include "x86.h"
 #include "proc.h"
 #include "spinlock.h"
-#include<stddef.h>
-#include<sys/types.h>
-#include<stdio.h>
-//#define NULL 0
+#include "stddef.h"
+//#include "sys/types.h"
+//#include "stdio.h"
 
 struct {
   struct spinlock lock;
@@ -208,6 +207,8 @@ fork(void)
   np->sz = curproc->sz;
   np->parent = curproc;
   *np->tf = *curproc->tf;
+	np->uid = curproc->uid;
+	np->gid = curproc->gid;
 
   // Clear %eax so that fork returns 0 in the child.
   np->tf->eax = 0;
@@ -647,27 +648,33 @@ chpr( int pid, int priority )
   return pid;
 }
 
-//creates one or more empty files
-/*int
-touch()
+//Edit for setting ids --- Colby Holloman
+int
+setuid(uint uid)
 {
-  FILE *fptr;
-    
-  if (argstr(1) != NULL) {
-    fptr = open(argstr(1), 0_CREAT);
-    fclose(fptr);
-  }
-  
-  if (df != NULL) {
-    fptr = open(df, 0_CREAT);
-    fclose(fptr);
-  }
-  
-  if (af != NULL) {
-    fptr = open(af, 0_CREAT);
-    fclose(fptr);
-  }
- 
-  return 22;
+  acquire(&ptable.lock);
+	if (!((0 <= uid) && (uid <= 32767))) {
+		cprintf("Error: %d is out of bounds. uid will not be changed.\n", uid);
+		release(&ptable.lock);
+		return -1;
+	}
+  myproc()->uid = uid;
+  release(&ptable.lock);	
+
+	return uid;
 }
-*/
+
+int
+setgid(uint gid)
+{
+  acquire(&ptable.lock);
+	if (!((0 <= gid) && (gid <= 32767))) {
+		cprintf("Error: %d is out of bounds. gid will not be changed.\n", gid);
+		release(&ptable.lock);
+		return -1;
+	}
+  myproc()->gid = gid;
+  release(&ptable.lock);	
+
+	return gid;
+}
