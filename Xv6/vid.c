@@ -7,7 +7,7 @@
 int
 main(void)
 {
-	int returnCheck = 0;
+	int returnCheck = 10;
 	unsigned int uid, gid, ppid;
 
 	uid = getuid();
