@@ -112,6 +112,9 @@ extern int sys_getgid(void);
 extern int sys_getppid(void);
 extern int sys_setuid(void);
 extern int sys_setgid(void);
+extern int sys_chmod(void);
+extern int sys_chown(void);
+extern int sys_chgrp(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -144,6 +147,9 @@ static int (*syscalls[])(void) = {
 [SYS_getppid] sys_getppid,
 [SYS_setuid]  sys_setuid,
 [SYS_setgid]  sys_setgid,
+[SYS_chmod]   sys_chmod,
+[SYS_chown]   sys_chown,
+[SYS_chgrp]   sys_chgrp,
 };
 
 void

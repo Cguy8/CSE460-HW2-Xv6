@@ -29,3 +29,6 @@
 #define SYS_getppid 28
 #define SYS_setuid 29
 #define SYS_setgid 30
+#define SYS_chmod  31
+#define SYS_chown  32
+#define SYS_chgrp  33

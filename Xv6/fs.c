@@ -669,3 +669,25 @@ nameiparent(char *path, char *name)
 {
   return namex(path, 1, name);
 }
+
+//Edits for file system protection --- started by Colby Holloman
+int
+chmod(char *pathname, int mode)
+{
+	//sets the permission bits of the file specified in pathname to the value specified as mode
+	return -1;
+}
+
+int
+chown(char *pathname, int owner)
+{
+	//sets the owner of the file specified in pathname to the UID value specified as owner
+	return -1;
+}
+
+int
+chgrp(char *pathname, int group)
+{
+	//sets the group of the file specified in pathname to the GID value specified as group
+	return -1;
+}
