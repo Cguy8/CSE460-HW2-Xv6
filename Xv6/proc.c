@@ -540,7 +540,7 @@ procdump(void)
   uint pc[10];
   //KL, we were missing the line that prints the header of procdump
   
-  cprintf("\nPID\tState\tName\tElapsed\t\tSize\t\t PCs\n");
+  cprintf("\nPID\tState\tName\tUID \tGID \tPPID \tElapsed\t\tSize\t\t PCs\n");
   
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
     if(p->state == UNUSED)
@@ -556,7 +556,14 @@ procdump(void)
     uint front = elapsed/1000;
     uint back = elapsed%1000;
     
-    cprintf("%d\t%s\t%s\t%d.%d seconds\t%d bytes\t", p->pid, state, p->name, front, back, p->sz);
+    if(p->pid <= 1) {
+    cprintf("%d\t%s\t%s\t%d\t%d\t\t%d.%d seconds\t%d bytes\t", p->pid, state, p->name, p->uid, p->gid, front, back, p->sz);
+    }
+
+    else {
+    cprintf("%d\t%s\t%s\t%d\t%d\t%d\t%d.%d seconds\t%d bytes\t", p->pid, state, p->name, p->uid, p->gid, p->parent->pid, front, back, p->sz);
+    }
+
     if(p->state == SLEEPING){
       getcallerpcs((uint*)p->context->ebp+2, pc);
       for(i=0; i<10 && pc[i] != 0; i++)
@@ -577,17 +584,54 @@ cps()
 
   // Loop over process table looking for process with pid.
   acquire(&ptable.lock);
-  cprintf("name \t pid \t state \t \t priority \n");
+  cprintf("Name \t Pid \t State \t \t UID\t GID\tPPID\t \t Elapsed \t Size \t priority \n");
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+      
+      uint timechange = ticks - p->start_ticks;
+      uint started = timechange/1000;
+      uint finished = timechange%1000;; 
+      
       if ( p->state == SLEEPING ) {
-        cprintf("%s \t %d  \t SLEEPING \t %d\n ", p->name, p->pid, p->priority );
+      	cprintf("%s \t %d  \t", p->name, p->pid);
+	cprintf(" SLEEPING \t");
+	cprintf(" %d \t %d \t", p->uid, p->gid);
+		
+	if(p->pid <= 1) {
+		cprintf(" \t");
+	}
+	else {
+		cprintf(" %d \t", p->parent->pid);
+	}
+	cprintf("\t %d.%d \t\t %d \t %d \n", started, finished, p->sz, p->priority);
       }
+      
       else if ( p->state == RUNNING ) {
-        cprintf("%s \t %d  \t RUNNING \t %d\n", p->name, p->pid, p->priority );
+       	cprintf("%s \t %d  \t", p->name, p->pid);
+	cprintf(" RUNNING \t");
+	cprintf(" %d \t %d \t", p->uid, p->gid);
+
+        if(p->pid <= 1) {
+                cprintf(" \t");
+        }
+        else {
+                cprintf(" %d \t", p->parent->pid);
+        }
+        cprintf("\t %d.%d \t\t %d \t %d \n", started, finished, p->sz, p->priority);
       }
+
       else if (p->state == RUNNABLE){
-        cprintf("%s \t %d  \t RUNNABLE \t %d\n ", p->name, p->pid, p->priority );
-      }
+       	cprintf("%s \t %d  \t", p->name, p->pid);
+	cprintf(" RUNNABLE \t");
+	cprintf(" %d \t %d \t", p->uid, p->gid);
+
+        if(p->pid <= 1) {
+                cprintf(" \t");
+        }
+        else {
+                cprintf(" %d \t", p->parent->pid);
+        }
+        cprintf("\t %d.%d \t\t %d \t %d \n", started, finished, p->sz, p->priority);
+      }      
   }
   
   release(&ptable.lock);
