@@ -656,7 +656,7 @@ setuid(uint uid)
 	if (!((0 <= uid) && (uid <= 32767))) {
 		cprintf("Error: %d is out of bounds. uid will not be changed.\n", uid);
 		release(&ptable.lock);
-		return -1;
+		return -1; 
 	}
   myproc()->uid = uid;
   release(&ptable.lock);	

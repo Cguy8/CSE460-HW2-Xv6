@@ -142,8 +142,8 @@ sys_setuid(void)
 	if (argint(0,&uid) < 0)
 		return -1;
 
-	setuid((uint)uid);
-	return 0;
+	int returnValue = setuid((uint)uid);
+	return returnValue;
 }
 
 int
@@ -153,8 +153,8 @@ sys_setgid(void)
 	if (argint(0,&gid) < 0)
 		return -1;
 
-	setgid((uint)gid);
-	return 0;
+	int returnValue = setgid((uint)gid);
+	return returnValue;
 }
 
 //starting edits---Ken Lin
