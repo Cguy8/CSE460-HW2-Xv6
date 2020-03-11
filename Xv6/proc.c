@@ -601,7 +601,7 @@ cps()
 	cprintf(" %d \t %d \t", p->uid, p->gid);
 		
 	if(p->pid <= 1) {
-		cprintf(" %d \t", p->pid);
+		cprintf(" %d\t", p->pid);
 	}
 	else {
 		cprintf(" %d \t", p->parent->pid);
@@ -615,7 +615,7 @@ cps()
 	cprintf(" %d \t %d \t", p->uid, p->gid);
 
         if(p->pid <= 1) {
-                cprintf(" %d \t", p->pid);
+                cprintf(" %d\t", p->pid);
         }
         else {
                 cprintf(" %d \t", p->parent->pid);
@@ -629,7 +629,7 @@ cps()
 	cprintf(" %d \t %d \t", p->uid, p->gid);
 
         if(p->pid <= 1) {
-                cprintf(" %d \t", p->pid);
+                cprintf(" %d\t", p->pid);
         }
         else {
                 cprintf(" %d \t", p->parent->pid);
