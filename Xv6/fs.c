@@ -445,6 +445,9 @@ stati(struct inode *ip, struct stat *st)
   st->type = ip->type;
   st->nlink = ip->nlink;
   st->size = ip->size;
+  st->uid = ip->uid;
+  st->gid = ip->gid;
+  st->mode.asInt = ip->mode.asInt; 
 }
 
 //PAGEBREAK!

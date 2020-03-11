@@ -101,6 +101,9 @@ main(int argc, char *argv[])
   sb.logstart = xint(2);
   sb.inodestart = xint(2+nlog);
   sb.bmapstart = xint(2+nlog+ninodeblocks);
+  /*
+  Theoretically, this is where default ownership and mode bits should be set.
+  */
 
   printf("nmeta %d (boot, super, log blocks %u inode blocks %u, bitmap blocks %u) blocks %d total %d\n",
          nmeta, nlog, ninodeblocks, nbitmap, nblocks, FSSIZE);
