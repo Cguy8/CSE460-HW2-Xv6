@@ -25,6 +25,23 @@ struct superblock {
 #define NINDIRECT (BSIZE / sizeof(uint))
 #define MAXFILE (NDIRECT + NINDIRECT)
 
+union mode_t {
+  struct {
+    uint o_x : 1;
+    uint o_w : 1;
+    uint o_r : 1;//other
+    uint g_x : 1;
+    uint g_w : 1;
+    uint g_r : 1;//group
+    uint u_x : 1;
+    uint u_w : 1;
+    uint u_r : 1;//user
+    uint setuid : 1;
+    uint : 22;//pad
+  } flags;
+  uint asInt;
+};
+
 // On-disk inode structure
 struct dinode {
   short type;           // File type

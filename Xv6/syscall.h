@@ -31,3 +31,6 @@
 #define SYS_setgid 30
 #define SYS_suid   31
 #define SYS_sgid   32
+#define SYS_chmod  33
+#define SYS_chown  34
+#define SYS_chgrp  35

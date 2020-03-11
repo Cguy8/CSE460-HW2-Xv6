@@ -443,3 +443,31 @@ sys_pipe(void)
   fd[1] = fd1;
   return 0;
 }
+
+//Edits for file system protection --- started by Colby Holloman
+int
+sys_chmod(void)
+{
+	char* testPathname = "./example.txt";
+	int testMode = 42;
+
+	return chmod(testPathname, testMode);
+}
+
+int
+sys_chown(void)
+{
+	char* testPathname = "./example.txt";
+	int testOwner = 43;
+
+	return chown(testPathname, testOwner);
+}
+
+int
+sys_chgrp(void)
+{
+	char* testPathname = "./example.txt";
+	int testGroup = 44;
+
+	return chgrp(testPathname, testGroup);
+}
