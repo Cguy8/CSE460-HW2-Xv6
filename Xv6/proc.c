@@ -557,7 +557,7 @@ procdump(void)
     uint back = elapsed%1000;
     
     if(p->pid <= 1) {
-    cprintf("%d\t%s\t%s\t%d\t%d\t\t%d.%d seconds\t%d bytes\t", p->pid, state, p->name, p->uid, p->gid, front, back, p->sz);
+    cprintf("%d\t%s\t%s\t%d\t%d\t%d\t%d.%d seconds\t%d bytes\t", p->pid, state, p->name, p->uid, p->gid, p->pid, front, back, p->sz);
     }
 
     else {
@@ -592,12 +592,12 @@ cps()
       uint finished = timechange%1000;; 
       
       if ( p->state == SLEEPING ) {
-      	cprintf("%s \t %d  \t", p->name, p->pid);
+      	cprintf("%s \t %d \t", p->name, p->pid);
 	cprintf(" SLEEPING \t");
 	cprintf(" %d \t %d \t", p->uid, p->gid);
 		
 	if(p->pid <= 1) {
-		cprintf(" \t");
+		cprintf(" %d \t", p->pid);
 	}
 	else {
 		cprintf(" %d \t", p->parent->pid);
@@ -611,7 +611,7 @@ cps()
 	cprintf(" %d \t %d \t", p->uid, p->gid);
 
         if(p->pid <= 1) {
-                cprintf(" \t");
+                cprintf(" %d \t", p->pid);
         }
         else {
                 cprintf(" %d \t", p->parent->pid);
@@ -625,7 +625,7 @@ cps()
 	cprintf(" %d \t %d \t", p->uid, p->gid);
 
         if(p->pid <= 1) {
-                cprintf(" \t");
+                cprintf(" %d \t", p->pid);
         }
         else {
                 cprintf(" %d \t", p->parent->pid);
