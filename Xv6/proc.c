@@ -149,13 +149,16 @@ userinit(void)
 
   safestrcpy(p->name, "initcode", sizeof(p->name));
   p->cwd = namei("/");
-
+  
+  p->uid = 0; //KL, we're initializing the uid and gid of the init process
+  p->gid = 0; //KL, to 0
+  
   // this assignment to p->state lets other cores
   // run this process. the acquire forces the above
   // writes to be visible, and the lock is also needed
   // because the assignment might not be atomic.
   acquire(&ptable.lock);
-
+  
   p->state = RUNNABLE;
 
   release(&ptable.lock);
@@ -207,8 +210,9 @@ fork(void)
   np->sz = curproc->sz;
   np->parent = curproc;
   *np->tf = *curproc->tf;
-	np->uid = curproc->uid;
-	np->gid = curproc->gid;
+  
+  np->uid = curproc->uid;
+  np->gid = curproc->gid; //KL, changed formatting to be consistent with rest of program
 
   // Clear %eax so that fork returns 0 in the child.
   np->tf->eax = 0;
@@ -692,6 +696,32 @@ chpr( int pid, int priority )
   return pid;
 }
 
+//KL, implementing getuid, getgid, getppid
+
+uint
+getuid(void)
+{
+  return myproc()->uid;
+}
+
+uint
+getgid(void)
+{
+  return myproc()->gid;
+}
+
+uint
+getppid(void)
+{
+  if (myproc()->parent)
+  {
+    return myproc()->parent->pid;
+  }
+  return myproc()->pid;
+  //returns parent pid if parent exists, otherwise returns pid, KL
+}
+
+
 //Edit for setting ids --- Colby Holloman
 int
 setuid(uint uid)
@@ -703,7 +733,7 @@ setuid(uint uid)
 		return -1; 
 	}
   myproc()->uid = uid;
-  release(&ptable.lock);	
+  release(&ptable.lock);
 
 	return uid;
 }
@@ -718,7 +748,38 @@ setgid(uint gid)
 		return -1;
 	}
   myproc()->gid = gid;
-  release(&ptable.lock);	
+  release(&ptable.lock);
 
 	return gid;
+}
+
+//KL, suid and sgid sets the uid and gid for the shell.
+int
+suid(uint uid)
+{
+  acquire(&ptable.lock);
+	if (!((0 <= uid) && (uid <= 32767))) {
+		cprintf("Error: %d is out of bounds. uid will not be changed.\n", uid);
+		release(&ptable.lock);
+		return -1; 
+	}
+  myproc()->parent->uid = uid; //the shell is the parent of whoever calls this
+  release(&ptable.lock);
+  
+  return myproc()->parent->uid;
+}
+
+int
+sgid(uint gid)
+{
+  acquire(&ptable.lock);
+	if (!((0 <= gid) && (gid <= 32767))) {
+		cprintf("Error: %d is out of bounds. gid will not be changed.\n", gid);
+		release(&ptable.lock);
+		return -1;
+	}
+  myproc()->parent->gid = gid;
+  release(&ptable.lock);
+
+  return myproc()->parent->gid;
 }

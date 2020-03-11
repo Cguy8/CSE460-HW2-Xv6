@@ -114,6 +114,8 @@ sys_chpr (void)
   return chpr ( pid, pr );
 }
 
+
+/*
 //edits for id system calls --- Colby Holloman
 int
 sys_getuid(void)
@@ -156,6 +158,46 @@ sys_setgid(void)
 	int returnValue = setgid((uint)gid);
 	return returnValue;
 }
+*/
+//KL, so that the system call implementation is moved to proc.c instead
+
+uint
+sys_getuid(void)
+{
+	return getuid();
+}
+
+uint
+sys_getgid(void)
+{
+	return getgid();
+}
+
+uint
+sys_getppid(void)
+{
+	return getppid();
+}
+
+int
+sys_setuid(void)
+{
+	int uid;
+	if (argint(0,&uid) < 0) 
+		return -1;
+
+	return setuid((uint)uid);
+}
+
+int
+sys_setgid(void)
+{
+	int gid;
+	if (argint(0,&gid) < 0)
+		return -1;
+
+	return setgid((uint)gid);
+}
 
 //starting edits---Ken Lin
 int sys_date(void)
@@ -165,4 +207,24 @@ int sys_date(void)
     return -1;
   cmostime(d);
   return 0;
+}
+
+int
+sys_suid(void)
+{
+	int uid;
+	if (argint(0,&uid) < 0)
+		return -1;
+
+	return suid((uint)uid);
+}
+
+int
+sys_sgid(void)
+{
+	int gid;
+	if (argint(0,&gid) < 0)
+		return -1;
+
+	return sgid((uint)gid);
 }

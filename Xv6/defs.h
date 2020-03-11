@@ -128,6 +128,8 @@ uint		getgid(void);
 uint		getppid(void);
 int		setuid(uint);
 int		setgid(uint);
+int             suid(uint);
+int             sgid(uint);
 
 // swtch.S
 void            swtch(struct context**, struct context*);
