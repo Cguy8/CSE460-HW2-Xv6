@@ -2,7 +2,7 @@
 #include "stat.h"
 #include "user.h"
 #include "fs.h"
-//#include "print_mode.c"	//This is supposed to be "provided," but it certainly doesn't compile.
+#include "print_mode.c"
 
 char*
 fmtname(char *path)
@@ -46,7 +46,8 @@ ls(char *path)
 
   switch(st.type){
   case T_FILE:
-    printf(1, "---------- \t%s %d \t%d \t%d \t%d \t%d\n", fmtname(path), st.type, st.uid, st.gid, st.ino, st.size);
+    print_mode(st);
+    printf(1, " \t%s %d \t%d \t%d \t%d \t%d\n", fmtname(path), st.type, st.uid, st.gid, st.ino, st.size);
     break;
 
   case T_DIR:
@@ -66,7 +67,8 @@ ls(char *path)
         printf(1, "ls: cannot stat %s\n", buf);
         continue;
       }
-      printf(1, "---------- \t%s %d \t%d \t%d \t%d \t%d\n", fmtname(buf), st.type, st.uid, st.gid, st.ino, st.size);
+	print_mode(st);
+      printf(1, " \t%s %d \t%d \t%d \t%d \t%d\n", fmtname(buf), st.type, st.uid, st.gid, st.ino, st.size);
     }
     break;
   }
