@@ -42,12 +42,13 @@ ls(char *path)
     return;
   }
 
-  printf(1, "mode\t\tname\t\ttype\tuid\tgid\tinode\tsize\n");
+  printf(1, "mode\t\tname\t\tuid\tgid\tinode\tsize\n");
 
   switch(st.type){
   case T_FILE:
+    //st.mode.flags.g_r = 1;
     print_mode(st);
-    printf(1, " \t%s %d \t%d \t%d \t%d \t%d\n", fmtname(path), st.type, st.uid, st.gid, st.ino, st.size);
+    printf(1, " \t%s %d \t%d \t%d \t%d\n", fmtname(path), st.uid, st.gid, st.ino, st.size);
     break;
 
   case T_DIR:
@@ -67,8 +68,9 @@ ls(char *path)
         printf(1, "ls: cannot stat %s\n", buf);
         continue;
       }
-	print_mode(st);
-      printf(1, " \t%s %d \t%d \t%d \t%d \t%d\n", fmtname(buf), st.type, st.uid, st.gid, st.ino, st.size);
+      st.mode.flags.g_r = 1;
+      print_mode(st);
+      printf(1, " \t%s %d \t%d \t%d \t%d\n", fmtname(buf), st.uid, st.gid, st.ino, st.size);
     }
     break;
   }
